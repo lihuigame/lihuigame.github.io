@@ -10,28 +10,28 @@ const languagePack = {
         
         // 英雄区域
         'hero.title': 'Creating Immersive Gaming Experiences',
-        'hero.subtitle': 'LIHUIGAMES is an innovative game development studio dedicated to creating captivating and immersive gaming experiences for players worldwide.',
-        'hero.button': 'Explore Our Games',
+        'hero.subtitle': 'LIHUIGAMES is an independent game developer specializing in action game development, dedicated to creating captivating and immersive gaming experiences for players worldwide.',
+        'hero.button': 'Explore My Games',
         
         // 游戏区域
-        'games.title': 'Our Games',
-        'games.subtitle': 'Discover our portfolio of innovative and engaging games across multiple platforms.',
-        'games.game1.title': 'Cyber Nexus',
-        'games.game1.description': 'An action-packed cyberpunk RPG set in a dystopian future where technology and humanity collide.',
-        'games.game2.title': 'Mythic Realms',
-        'games.game2.description': 'Explore a vast fantasy world filled with ancient magic, mythical creatures, and epic quests.',
-        'games.game3.title': 'Quantum Drift',
-        'games.game3.description': 'A high-speed racing game with futuristic vehicles and gravity-defying tracks across multiple dimensions.',
+        'games.title': 'My Games',
+        'games.subtitle': 'Discover my portfolio of innovative and engaging games across multiple platforms.',
+        'games.game1.title': 'Princess Guard',
+        'games.game1.description': 'A action role-playing game set in a dystopian future, telling the story of the collision between guardians and the protected.',
+        'games.game2.title': 'Nine Nights',
+        'games.game2.description': 'Explore a vast fantasy world filled with Chinese martial arts and epic quests.',
+        'games.game3.title': 'Ant Jump',
+        'games.game3.description': 'A cartoon platform-jumping game that challenges players is extreme survival skills in a cartoon world full of traps and dangers.',
         'games.learnMore': 'Learn More',
         
         // 关于我们区域
         'about.title': 'About LIHUIGAMES',
-        'about.subtitle': 'Learn more about our studio and our mission to create unforgettable gaming experiences.',
-        'about.ourStory': 'Our Story',
-        'about.story1': 'Founded in 2018, LIHUIGAMES began as a small team of passionate game developers with a shared vision: to create games that push the boundaries of innovation and storytelling.',
-        'about.story2': 'Today, we\'ve grown into a full-fledged studio with over 50 talented developers, artists, and designers working together to bring our creative visions to life.',
-        'about.story3': 'Our philosophy is simple: prioritize player experience, embrace new technologies, and never stop innovating.',
-        'about.joinTeam': 'Join Our Team',
+        'about.subtitle': 'Learn more about me and my mission to create unforgettable gaming experiences.',
+        'about.ourStory': 'My Story',
+        'about.story1': 'I am an independent game developer and also a seasoned action game player.',
+        'about.story2': 'For many years, I have been passionate about action games, and that is why I only focus on making action games.',
+        'about.story3': 'I hope to express my love and thoughts about games in my own games, and at the same time, I also hope to provide some fresh and interesting gaming experiences for gamers.',
+        'about.joinTeam': 'Contact Me',
         
         // 隐私政策区域
         'privacy.title': 'Privacy Policy',
@@ -68,16 +68,15 @@ const languagePack = {
         'privacy.section6.title': 'Changes to This Policy',
         'privacy.section6.p1': 'We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last Updated" date.',
         'privacy.section6.p2': 'You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page.',
-        'privacy.section7.title': 'Contact Us',
-        'privacy.section7.p1': 'If you have any questions about this Privacy Policy, please contact us:',
-        'privacy.section7.li1': 'By email: privacy@lihuigames.com',
+        'privacy.section7.title': 'Contact Me',
+        'privacy.section7.p1': 'If you have any questions about this Privacy Policy, please contact me:',
+		 'privacy.section7.li2.link': 'Contact Me',
+        'privacy.section7.li1': 'By email: lihuigame888@163.com',
         'privacy.section7.li2': 'By visiting this page on our website: ',
-        'privacy.section7.li2.link': 'Contact Us',
-        'privacy.section7.li3': 'By mail: 123 Game Dev Street, San Francisco, CA 94103',
-        'privacy.lastUpdated': 'Last Updated: June 15, 2023',
+        'privacy.lastUpdated': 'Last Updated: June 15, 2025',
         
         // 联系区域
-        'contact.title': 'Contact Us',
+        'contact.title': 'Contact Me',
         'contact.subtitle': 'Have questions or want to collaborate? Get in touch with our team.',
         'contact.form.name': 'Name',
         'contact.form.namePlaceholder': 'Your Name',
@@ -97,41 +96,40 @@ const languagePack = {
         'footer.terms': 'Terms of Service',
         'footer.careers': 'Careers',
         'footer.contactInfo': 'Contact Info',
-        'footer.address': '123 Game Dev Street, San Francisco, CA 94103',
         'footer.rights': 'All rights reserved.'
     },
     'zh': {
         // 导航栏
         'nav.home': '首页',
         'nav.games': '游戏',
-        'nav.about': '关于我们',
+        'nav.about': '关于我',
         'nav.privacy': '隐私政策',
-        'nav.contact': '联系我们',
+        'nav.contact': '联系我',
         
         // 英雄区域
         'hero.title': '创造沉浸式游戏体验',
-        'hero.subtitle': 'LIHUIGAMES是一家创新的游戏开发工作室，致力于为全球玩家创造引人入胜的沉浸式游戏体验。',
-        'hero.button': '探索我们的游戏',
+        'hero.subtitle': 'LIHUIGAMES是一家专注于动作游戏开发的独立游戏开发商，致力于为全球玩家创造迷人而身临其境的游戏体验。',
+        'hero.button': '探索我的游戏',
         
         // 游戏区域
-        'games.title': '我们的游戏',
-        'games.subtitle': '发现我们在多个平台上的创新和引人入胜的游戏组合。',
-        'games.game1.title': '赛博连结',
-        'games.game1.description': '一款设定在反乌托邦未来的动作角色扮演游戏，讲述科技与人性碰撞的故事。',
-        'games.game2.title': '神话领域',
-        'games.game2.description': '探索一个充满古老魔法、神话生物和史诗任务的广阔奇幻世界。',
-        'games.game3.title': '量子漂移',
-        'games.game3.description': '一款高速赛车游戏，拥有未来主义车辆和跨越多个维度的重力挑战赛道。',
+        'games.title': '我的游戏',
+        'games.subtitle': '发现我在多个平台上的创新和引人入胜的游戏组合。',
+        'games.game1.title': '公主守护',
+        'games.game1.description': '一款设定在反乌托邦未来的二次元动作角色扮演游戏，讲述守护者与被守护者碰撞的故事。',
+        'games.game2.title': '九夜刺狼',
+        'games.game2.description': '探索一个充满中国武侠和史诗任务的广阔奇幻世界。',
+        'games.game3.title': '蚂蚁不跳',
+        'games.game3.description': '一款卡通平台跳跃游戏，在充满陷阱和危险的卡通世界挑战玩家的极限生存能力。',
         'games.learnMore': '了解更多',
         
         // 关于我们区域
         'about.title': '关于LIHUIGAMES',
-        'about.subtitle': '了解更多关于我们工作室以及我们创造难忘游戏体验的使命。',
-        'about.ourStory': '我们的故事',
-        'about.story1': '成立于2018年，LIHUIGAMES最初是一个由充满激情的游戏开发者组成的小团队，他们有着共同的愿景：创造能够突破创新和叙事边界的游戏。',
-        'about.story2': '今天，我们已经发展成为一个成熟的工作室，拥有超过50名才华横溢的开发人员、艺术家和设计师，共同将我们的创意愿景变为现实。',
-        'about.story3': '我们的理念很简单：优先考虑玩家体验，拥抱新技术，永不停息创新。',
-        'about.joinTeam': '加入我们的团队',
+        'about.subtitle': '了解更多关于我以及我创造难忘游戏体验的使命。',
+        'about.ourStory': '我的故事',
+        'about.story1': '我是一名独立游戏开发者，同时也是一名资深动作类游戏玩家。',
+        'about.story2': '多年来我一直钟情于动作类游戏，这也是我只是专注于制作动作类游戏的原因。',
+        'about.story3': '我希望在自己的游戏中表达我对于游戏的热爱和思考，同时也希望能够为游戏玩家们提供一些新鲜有趣的游戏体验。',
+        'about.joinTeam': '联系我',
         
         // 隐私政策区域
         'privacy.title': '隐私政策',
@@ -170,15 +168,14 @@ const languagePack = {
         'privacy.section6.p2': '建议您定期查看本隐私政策以了解任何更改。本隐私政策的更改在发布在此页面上时生效。',
         'privacy.section7.title': '联系我们',
         'privacy.section7.p1': '如果您对此隐私政策有任何疑问，请通过以下方式联系我们：',
-        'privacy.section7.li1': '通过电子邮件：privacy@lihuigames.com',
-        'privacy.section7.li2': '通过访问我们网站上的此页面：',
-        'privacy.section7.li2.link': '联系我们',
-        'privacy.section7.li3': '通过邮件：123 Game Dev Street, San Francisco, CA 94103',
-        'privacy.lastUpdated': '最后更新：2023年6月15日',
+		 'privacy.section7.li2.link': '联系我',
+        'privacy.section7.li1': '通过电子邮件：lihuigame888@163.com',
+        'privacy.section7.li2': '通过访问我网站上的此页面：',
+        'privacy.lastUpdated': '最后更新：2025年6月15日',
         
         // 联系区域
-        'contact.title': '联系我们',
-        'contact.subtitle': '有问题或想合作？与我们的团队取得联系。',
+        'contact.title': '联系我',
+        'contact.subtitle': '有问题或想合作？与我取得联系。',
         'contact.form.name': '姓名',
         'contact.form.namePlaceholder': '您的姓名',
         'contact.form.email': '邮箱',
@@ -197,7 +194,6 @@ const languagePack = {
         'footer.terms': '服务条款',
         'footer.careers': '招聘信息',
         'footer.contactInfo': '联系信息',
-        'footer.address': '游戏开发街123号，旧金山，加利福尼亚 94103',
         'footer.rights': '保留所有权利。'
     }
 };
