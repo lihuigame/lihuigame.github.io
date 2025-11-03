@@ -1,1141 +1,1330 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LIHUIGAMES - 游戏开发者作品集</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome -->
+    <title>LIHUIGAMES - Innovative Game Development Studio</title>
+    <!-- 引入字体图标库 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'bg-black': '#000000',
-                        'bg-dark': '#111111',
-                        'text-white': '#ffffff',
-                        'text-gray': '#999999',
-                        'text-light-gray': '#aaaaaa',
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'system-ui', 'sans-serif'],
-                    },
-                }
-            }
-        }
-    </script>
-    
     <style>
-        /* 自定义字体 */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap');
-        
+        /* 基础样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* CSS变量定义，便于统一管理颜色和尺寸 */
         :root {
-            --bg-black: #000000;
-            --bg-dark: #111111;
-            --text-white: #ffffff;
-            --text-gray: #999999;
-            --text-light-gray: #aaaaaa;
+            --primary: #2c3e50;      /* 主色调 */
+            --secondary: #3498db;    /* 辅助色 */
+            --accent: #e74c3c;       /* 强调色 */
+            --light: #ecf0f1;        /* 浅色背景 */
+            --dark: #1a2530;         /* 深色背景 */
+            --text: #333;            /* 主要文本颜色 */
+            --text-light: #777;      /* 浅色文本 */
+            --shadow: 0 5px 15px rgba(0,0,0,0.1); /* 阴影效果 */
+            --transition: all 0.3s ease; /* 过渡效果 */
         }
-        
-        html {
-            scroll-behavior: smooth;
-        }
-        
+
+        /* 基础样式设置 */
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-black);
-            color: var(--text-white);
-            overflow-x: hidden;
+            background-color: #f9f9f9;
+            color: var(--text);
+            line-height: 1.6;
         }
-        
-        /* 自定义滚动条 */
-        ::-webkit-scrollbar {
-            width: 6px;
+
+        /* 容器样式，用于居中内容 */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        
-        ::-webkit-scrollbar-track {
-            background: var(--bg-black);
+
+        /* 通用按钮样式 */
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
         }
-        
-        ::-webkit-scrollbar-thumb {
-            background: var(--text-gray);
-            border-radius: 3px;
+
+        .btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
         }
-        
-        /* 游戏卡片样式 */
-        .game-card {
-            position: relative;
+
+        /* 通用标题样式 */
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
         }
-        
-        .game-card-overlay {
-            opacity: 0.7;
-            position: absolute;
-            inset: 0;
-            background-color: rgba(0, 0, 0, 0.7);
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title p {
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* 导航栏样式 */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
             display: flex;
             align-items: center;
-            justify-content: center;
         }
-        
-        /* 导航链接样式 */
-        .nav-link {
+
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links li {
+            margin-left: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+
+        /* 语言切换器样式 */
+        .language-switcher {
             position: relative;
         }
-        
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background-color: var(--text-white);
+
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: var(--transition);
         }
-        
-        /* 页面样式 */
-        .page {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            min-height: 100vh;
-            padding-top: 80px;
+
+        .lang-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .lang-flag {
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .mobile-menu {
             display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: white;
         }
-        
-        .page.active {
-            display: block;
+
+        /* 英雄区域样式 */
+        .hero {
+            background: linear-gradient(135deg, var(--primary), var(--dark)), url('https://images.unsplash.com/photo-1534423861386-85a16f5d13fd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
         }
-        
-        /* 按钮样式 */
-        .btn-hover {
-            position: relative;
-            border: 1px solid var(--text-white);
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
         }
-        
-        /* 背景样式 */
-        .parallax-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        /* 游戏展示区域样式 */
+        .games {
+            padding: 5rem 0;
+            background-color: white;
+        }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .game-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .game-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .game-image img {
             width: 100%;
             height: 100%;
-            z-index: -1;
+            object-fit: cover;
+            transition: var(--transition);
         }
-        
-        /* 响应式调整 */
+
+        .game-card:hover .game-image img {
+            transform: scale(1.05);
+        }
+
+        .game-info {
+            padding: 1.5rem;
+        }
+
+        .game-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .game-info p {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        /* 关于我们区域样式 */
+        .about {
+            padding: 5rem 0;
+            background-color: var(--light);
+        }
+
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        .about-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+        }
+
+        .about-image {
+            flex: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* 隐私政策区域样式 */
+        .privacy-policy {
+            padding: 5rem 0;
+            background-color: white;
+        }
+
+        .policy-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .policy-section {
+            margin-bottom: 3rem;
+        }
+
+        .policy-section h3 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light);
+        }
+
+        .policy-section p {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .policy-section ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .policy-section li {
+            margin-bottom: 0.8rem;
+            line-height: 1.6;
+        }
+
+        .policy-section strong {
+            color: var(--primary);
+        }
+
+        .policy-date {
+            font-style: italic;
+            color: var(--text-light);
+            margin-top: 2rem;
+        }
+
+        /* 联系区域样式 */
+        .contact {
+            padding: 5rem 0;
+            background-color: var(--light);
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            border-color: var(--secondary);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        /* 页脚样式 */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -8px;
+            width: 40px;
+            height: 2px;
+            background-color: var(--secondary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-links li i {
+            margin-right: 10px;
+            color: var(--secondary);
+        }
+
+        .footer-links a {
+            color: #bbb;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            width: 36px;
+            height: 36px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--secondary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #bbb;
+            font-size: 0.9rem;
+        }
+
+        .copyright a {
+            color: var(--secondary);
+            text-decoration: none;
+        }
+
+        .copyright a:hover {
+            text-decoration: underline;
+        }
+
+        /* 自定义字体图标样式 */
+        /* 游戏控制器图标 */
+        .icon-controller::before {
+            content: "\f11b"; /* Font Awesome游戏控制器图标 */
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+        }
+
+        /* 团队图标 */
+        .icon-team::before {
+            content: "\f0c0"; /* Font Awesome用户组图标 */
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+        }
+
+        /* 隐私图标 */
+        .icon-privacy::before {
+            content: "\f023"; /* Font Awesome锁图标 */
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+        }
+
+        /* 联系图标 */
+        .icon-contact::before {
+            content: "\f0e0"; /* Font Awesome信封图标 */
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+        }
+
+        /* 响应式设计 - 平板和手机 */
         @media (max-width: 768px) {
-            .navbar-menu {
-                position: fixed;
-                top: 80px;
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
                 left: 0;
                 width: 100%;
-                height: 0;
-                background-color: var(--bg-black);
-                overflow: hidden;
-                z-index: 100;
+                background-color: var(--primary);
+                flex-direction: column;
+                padding: 1rem 0;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
             }
             
-            .navbar-menu.active {
-                height: calc(100vh - 80px);
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links li {
+                margin: 0;
+                text-align: center;
+            }
+            
+            .nav-links a {
+                display: block;
+                padding: 0.8rem 1rem;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .about-image {
+                width: 100%;
+                margin-top: 2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .policy-section {
+                margin-bottom: 2rem;
+            }
+            
+            .policy-section h3 {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* 响应式设计 - 小屏幕手机 */
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .game-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-
-    
-    <!-- 视差背景 -->
-    <div class="parallax-bg">
-        <img src="https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/b2e65db8fb4b4a609bbc8b55b9a25795~tplv-a9rns2rl98-image.image?rcl=2025110306491165114C277F4CE87921B6&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1764715809&x-signature=F6sbJNAt0HbASuw3LIYJRtSG2J8%3D" alt="Background" class="w-full h-full object-cover opacity-20">
-    </div>
-    
-
-    
     <!-- 导航栏 -->
-    <nav class="fixed top-0 left-0 w-full bg-black bg-opacity-90 backdrop-blur-sm z-40 border-b border-gray-800">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <a href="#" class="flex items-center space-x-3" data-page="home">
-                <img src="https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/7090096eb90140c89b867deb7ed25370~tplv-a9rns2rl98-image.image?rcl=2025110306491165114C277F4CE87921B6&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1764715790&x-signature=XuNLnBgabiQFjwysFOoZn2omjhg%3D" alt="Logo" class="w-10 h-10 rounded-full">
-                <span class="text-xl font-light tracking-wider">LIHUI<span class="font-normal">GAMES</span></span>
-            </a>
-            
-            <!-- 桌面导航 -->
-            <div class="hidden md:flex items-center space-x-8">
-                <a href="#" class="nav-link active text-sm uppercase tracking-wider" data-page="home">首页</a>
-                <a href="#" class="nav-link text-sm uppercase tracking-wider" data-page="games">游戏</a>
-                <a href="#" class="nav-link text-sm uppercase tracking-wider" data-page="about">关于我</a>
-                <a href="#" class="nav-link text-sm uppercase tracking-wider" data-page="privacy">隐私政策</a>
-                <a href="#" class="nav-link text-sm uppercase tracking-wider" data-page="contact">联系</a>
-                <button id="language-toggle" class="text-sm border border-gray-800 hover:border-white px-3 py-1 rounded transition-all">
-                    <span class="lang-zh">中文 / EN</span>
-                    <span class="lang-en hidden">中文 / EN</span>
-                </button>
-            </div>
-            
-            <!-- 移动端菜单按钮 -->
-            <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
-                <i class="fas fa-bars text-xl"></i>
-            </button>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">
+                    <!-- 网站logo -->
+                    <i class="fas fa-gamepad" style="margin-right: 10px; color: var(--secondary);"></i>
+                    LIHUI<span>GAMES</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="#home" data-lang="nav.home"><i class="fas fa-home icon-home"></i> <span>Home</span></a></li>
+                    <li><a href="#games" data-lang="nav.games"><i class="fas fa-gamepad icon-controller"></i> <span>Games</span></a></li>
+                    <li><a href="#about" data-lang="nav.about"><i class="fas fa-users icon-team"></i> <span>About</span></a></li>
+                    <li><a href="#privacy-policy" data-lang="nav.privacy"><i class="fas fa-shield-alt icon-privacy"></i> <span>Privacy Policy</span></a></li>
+                    <li><a href="#contact" data-lang="nav.contact"><i class="fas fa-envelope icon-contact"></i> <span>Contact</span></a></li>
+                    <li class="language-switcher">
+                        <button id="lang-toggle" class="lang-btn">
+                            <span class="lang-flag">🌐</span>
+                            <span class="lang-text">EN</span>
+                        </button>
+                    </li>
+                </ul>
+                <div class="mobile-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
         </div>
-        
-        <!-- 移动端导航菜单 -->
-        <div id="mobile-menu" class="navbar-menu md:hidden">
-            <div class="container mx-auto px-4 py-8 flex flex-col space-y-8">
-                <a href="#" class="nav-link active text-lg uppercase tracking-wider" data-page="home">首页</a>
-                <a href="#" class="nav-link text-lg uppercase tracking-wider" data-page="games">游戏</a>
-                <a href="#" class="nav-link text-lg uppercase tracking-wider" data-page="about">关于我</a>
-                <a href="#" class="nav-link text-lg uppercase tracking-wider" data-page="privacy">隐私政策</a>
-                <a href="#" class="nav-link text-lg uppercase tracking-wider" data-page="contact">联系</a>
-                <button id="mobile-language-toggle" class="text-sm border border-gray-800 hover:border-white px-3 py-1 rounded transition-all w-fit">
-                    <span class="lang-zh">中文 / EN</span>
-                    <span class="lang-en hidden">中文 / EN</span>
-                </button>
-            </div>
+    </header>
+
+    <!-- 英雄区域 -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1 data-lang="hero.title">Creating Immersive Gaming Experiences</h1>
+            <p data-lang="hero.subtitle">LIHUIGAMES is an innovative game development studio dedicated to creating captivating and immersive gaming experiences for players worldwide.</p>
+            <a href="#games" class="btn" data-lang="hero.button">Explore Our Games</a>
         </div>
-    </nav>
-    
-    <!-- 首页 -->
-    <section id="home" class="page active min-h-screen">
-        <div class="container mx-auto px-4 py-20">
-            <div class="flex flex-col md:flex-row items-center justify-between min-h-[calc(100vh-80px)]">
-                <div class="md:w-1/2 mb-12 md:mb-0">
-                    <h1 class="text-5xl md:text-7xl font-light mb-6">
-                        <span>我是一名</span>
-                        <br>
-                        <span id="typing-text" class="font-normal">游戏开发者</span>
-                    </h1>
-                    <p class="text-xl text-gray-400 mb-10 max-w-lg">
-                        专注于独立游戏开发，打造沉浸式游戏体验。从概念设计到最终实现，每一个细节都倾注了我的热情与创意。
-                    </p>
-                    <div class="flex space-x-6">
-                        <a href="#" class="btn-hover border border-white px-6 py-3 text-sm uppercase tracking-wider" data-page="games">
-                            浏览游戏
-                        </a>
-                        <a href="#" class="btn-hover border border-white px-6 py-3 text-sm uppercase tracking-wider" data-page="contact">
-                            联系我
-                        </a>
+    </section>
+
+    <!-- 游戏展示区域 -->
+    <section class="games" id="games">
+        <div class="container">
+            <div class="section-title">
+                <h2 data-lang="games.title">Our Games</h2>
+                <p data-lang="games.subtitle">Discover our portfolio of innovative and engaging games across multiple platforms.</p>
+            </div>
+            <div class="game-grid">
+                <!-- 游戏卡片1 -->
+                <div class="game-card">
+                    <div class="game-image">
+                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Cyber Nexus">
+                    </div>
+                    <div class="game-info">
+                        <h3 data-lang="games.game1.title">Cyber Nexus</h3>
+                        <p data-lang="games.game1.description">An action-packed cyberpunk RPG set in a dystopian future where technology and humanity collide.</p>
+                        <a href="#" class="btn" data-lang="games.learnMore">Learn More</a>
                     </div>
                 </div>
-                <div class="md:w-1/2">
-                    <img src="https://p11-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/2347591620365778953~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777675768&x-signature=9z5TBw08gVErwG7sadrupFTKxVE%3D" alt="Game Development" class="w-full rounded-lg">
+                <!-- 游戏卡片2 -->
+                <div class="game-card">
+                    <div class="game-image">
+                        <img src="https://images.unsplash.com/photo-1534423861386-85a16f5d13fd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Mythic Realms">
+                    </div>
+                    <div class="game-info">
+                        <h3 data-lang="games.game2.title">Mythic Realms</h3>
+                        <p data-lang="games.game2.description">Explore a vast fantasy world filled with ancient magic, mythical creatures, and epic quests.</p>
+                        <a href="#" class="btn" data-lang="games.learnMore">Learn More</a>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="mt-32">
-                <h2 class="text-2xl font-light mb-16 text-center">
-                    我的游戏开发技能
-                </h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-                    <div class="bg-dark p-8 rounded-lg border border-gray-800">
-                        <div class="text-4xl mb-6">
-                            <i class="fas fa-code"></i>
-                        </div>
-                        <h3 class="text-xl font-light mb-4">游戏编程</h3>
-                        <p class="text-gray-400">
-                            精通C#、C++和JavaScript，熟悉Unity和Unreal Engine游戏引擎，能够实现复杂的游戏逻辑和交互系统。
-                        </p>
+                <!-- 游戏卡片3 -->
+                <div class="game-card">
+                    <div class="game-image">
+                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Quantum Drift">
                     </div>
-                    
-                    <div class="bg-dark p-8 rounded-lg border border-gray-800">
-                        <div class="text-4xl mb-6">
-                            <i class="fas fa-paint-brush"></i>
-                        </div>
-                        <h3 class="text-xl font-light mb-4">游戏美术</h3>
-                        <p class="text-gray-400">
-                            擅长2D和3D游戏美术设计，包括角色设计、场景设计和UI设计，能够创建引人入胜的游戏视觉体验。
-                        </p>
-                    </div>
-                    
-                    <div class="bg-dark p-8 rounded-lg border border-gray-800">
-                        <div class="text-4xl mb-6">
-                            <i class="fas fa-gamepad"></i>
-                        </div>
-                        <h3 class="text-xl font-light mb-4">游戏设计</h3>
-                        <p class="text-gray-400">
-                            专注于游戏机制设计和关卡设计，能够创造有趣且具有挑战性的游戏体验，注重玩家体验和游戏平衡性。
-                        </p>
+                    <div class="game-info">
+                        <h3 data-lang="games.game3.title">Quantum Drift</h3>
+                        <p data-lang="games.game3.description">A high-speed racing game with futuristic vehicles and gravity-defying tracks across multiple dimensions.</p>
+                        <a href="#" class="btn" data-lang="games.learnMore">Learn More</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    
-    <!-- 游戏页面 -->
-    <section id="games" class="page min-h-screen">
-        <div class="container mx-auto px-4 py-20">
-            <h1 class="text-4xl md:text-5xl font-light mb-16 text-center">
-                我的<span class="font-normal">游戏作品</span>
-            </h1>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- 游戏卡片 1 -->
-                <div class="game-card group" data-game-id="1">
-                    <div class="relative overflow-hidden aspect-[4/5]">
-                        <img src="https://p11-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/2281264766824873990~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777675768&x-signature=Vf1FWx%2BABjn2JWZihVWV3n1Ub7s%3D" alt="Ancient Ruins Adventure" class="w-full h-full object-cover">
-                        <div class="game-card-overlay absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center">
-                            <button class="btn-hover border border-white px-6 py-2 text-sm uppercase tracking-wider game-detail-btn">
-                                查看详情
-                            </button>
-                        </div>
-                    </div>
-                    <h3 class="mt-4 text-lg font-light">Ancient Ruins Adventure</h3>
-                    <p class="text-sm text-gray-400">冒险, 解谜, 极简</p>
+
+    <!-- 关于我们区域 -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2 data-lang="about.title">About LIHUIGAMES</h2>
+                <p data-lang="about.subtitle">Learn more about our studio and our mission to create unforgettable gaming experiences.</p>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3 data-lang="about.ourStory">Our Story</h3>
+                    <p data-lang="about.story1">Founded in 2018, LIHUIGAMES began as a small team of passionate game developers with a shared vision: to create games that push the boundaries of innovation and storytelling.</p>
+                    <p data-lang="about.story2">Today, we've grown into a full-fledged studio with over 50 talented developers, artists, and designers working together to bring our creative visions to life.</p>
+                    <p data-lang="about.story3">Our philosophy is simple: prioritize player experience, embrace new technologies, and never stop innovating.</p>
+                    <a href="#" class="btn" data-lang="about.joinTeam">Join Our Team</a>
                 </div>
-                
-                <!-- 游戏卡片 2 -->
-                <div class="game-card group" data-game-id="2">
-                    <div class="relative overflow-hidden aspect-[4/5]">
-                        <img src="https://p26-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/973056580772691973~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777675769&x-signature=RuOP0u3YHmkJeCpn5qg7v3aigis%3D" alt="Pixel Platformer" class="w-full h-full object-cover">
-                        <div class="game-card-overlay absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center">
-                            <button class="btn-hover border border-white px-6 py-2 text-sm uppercase tracking-wider game-detail-btn">
-                                查看详情
-                            </button>
-                        </div>
-                    </div>
-                    <h3 class="mt-4 text-lg font-light">Pixel Platformer</h3>
-                    <p class="text-sm text-gray-400">平台, 像素艺术, 2D</p>
-                </div>
-                
-                <!-- 游戏卡片 3 -->
-                <div class="game-card group" data-game-id="3">
-                    <div class="relative overflow-hidden aspect-[4/5]">
-                        <img src="https://p11-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/2222501359357132801~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777675768&x-signature=ugK1ddVrej%2FJqO4wY7Yb6f2I0HA%3D" alt="Floating Island" class="w-full h-full object-cover">
-                        <div class="game-card-overlay absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center">
-                            <button class="btn-hover border border-white px-6 py-2 text-sm uppercase tracking-wider game-detail-btn">
-                                查看详情
-                            </button>
-                        </div>
-                    </div>
-                    <h3 class="mt-4 text-lg font-light">Floating Island</h3>
-                    <p class="text-sm text-gray-400">开放世界, 探索, 极简</p>
-                </div>
-                
-                <!-- 游戏卡片 4 -->
-                <div class="game-card group" data-game-id="4">
-                    <div class="relative overflow-hidden aspect-[4/5]">
-                        <img src="https://p11-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/2264879174598131724~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777675768&x-signature=7tQ6qa8cWbyEI1p9Eo24k8mQ6oo%3D" alt="Pixel Castle" class="w-full h-full object-cover">
-                        <div class="game-card-overlay absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center">
-                            <button class="btn-hover border border-white px-6 py-2 text-sm uppercase tracking-wider game-detail-btn">
-                                查看详情
-                            </button>
-                        </div>
-                    </div>
-                    <h3 class="mt-4 text-lg font-light">Pixel Castle</h3>
-                    <p class="text-sm text-gray-400">角色扮演, 像素艺术, 2D</p>
-                </div>
-                
-                <!-- 游戏卡片 5 -->
-                <div class="game-card group" data-game-id="5">
-                    <div class="relative overflow-hidden aspect-[4/5]">
-                        <img src="https://p3-doubao-search-sign.byteimg.com/labis/5bd0472cf806a2dc54c44aa3db65c77e~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777675768&x-signature=4z6OjDI1squ19AwWjNuKYoFf0bU%3D" alt="Dragon Puzzle" class="w-full h-full object-cover">
-                        <div class="game-card-overlay absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center">
-                            <button class="btn-hover border border-white px-6 py-2 text-sm uppercase tracking-wider game-detail-btn">
-                                查看详情
-                            </button>
-                        </div>
-                    </div>
-                    <h3 class="mt-4 text-lg font-light">Dragon Puzzle</h3>
-                    <p class="text-sm text-gray-400">益智, 消除, 极简</p>
-                </div>
-                
-                <!-- 游戏卡片 6 -->
-                <div class="game-card group" data-game-id="6">
-                    <div class="relative overflow-hidden aspect-[4/5]">
-                        <img src="https://p11-doubao-search-sign.byteimg.com/pgc-image/1528942856328ec3a1ab018~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777675768&x-signature=1v6mZtFoAa3gaxo%2Boc9nXQgOpqY%3D" alt="Strategy Board" class="w-full h-full object-cover">
-                        <div class="game-card-overlay absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center">
-                            <button class="btn-hover border border-white px-6 py-2 text-sm uppercase tracking-wider game-detail-btn">
-                                查看详情
-                            </button>
-                        </div>
-                    </div>
-                    <h3 class="mt-4 text-lg font-light">Strategy Board</h3>
-                    <p class="text-sm text-gray-400">策略, 棋盘, 极简</p>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="LIHUIGAMES Studio">
                 </div>
             </div>
         </div>
     </section>
-    
-    <!-- 游戏详情模态框 -->
-    <div id="game-detail-modal" class="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center px-4 hidden">
-        <div class="bg-dark rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-            <div class="p-8">
-                <div class="flex justify-between items-center mb-8">
-                    <h2 id="modal-title" class="text-2xl font-light">Game Title</h2>
-                    <button id="close-modal" class="text-gray-400 hover:text-white text-2xl">
-                        <i class="fas fa-times"></i>
-                    </button>
+
+    <!-- 隐私政策区域 -->
+    <section class="privacy-policy" id="privacy-policy">
+        <div class="container">
+            <div class="section-title">
+                <h2 data-lang="privacy.title">Privacy Policy</h2>
+                <p data-lang="privacy.subtitle">Your privacy is important to us. Learn how we collect, use, and protect your information.</p>
+            </div>
+            <div class="policy-content">
+                <div class="policy-section">
+                    <h3 data-lang="privacy.section1.title">Information We Collect</h3>
+                    <p data-lang="privacy.section1.p1">We collect information to provide better services to our users. The types of information we collect include:</p>
+                    <ul>
+                        <li><strong data-lang="privacy.section1.li1.title">Personal Information:</strong> <span data-lang="privacy.section1.li1.text">When you create an account, we may ask for personal information such as your name, email address, and date of birth.</span></li>
+                        <li><strong data-lang="privacy.section1.li2.title">Game Data:</strong> <span data-lang="privacy.section1.li2.text">We collect data about your gameplay, including progress, achievements, and in-game purchases.</span></li>
+                        <li><strong data-lang="privacy.section1.li3.title">Device Information:</strong> <span data-lang="privacy.section1.li3.text">We collect device-specific information such as hardware model, operating system, and unique device identifiers.</span></li>
+                        <li><strong data-lang="privacy.section1.li4.title">Log Information:</strong> <span data-lang="privacy.section1.li4.text">When you use our services, we automatically collect and store certain information in server logs.</span></li>
+                    </ul>
                 </div>
                 
-                <div id="modal-content">
-                    <!-- 动态内容将通过JavaScript填充 -->
+                <div class="policy-section">
+                    <h3 data-lang="privacy.section2.title">How We Use Information</h3>
+                    <p data-lang="privacy.section2.p1">We use the information we collect for the following purposes:</p>
+                    <ul>
+                        <li data-lang="privacy.section2.li1">To provide, maintain, and improve our games and services</li>
+                        <li data-lang="privacy.section2.li2">To develop new games and features</li>
+                        <li data-lang="privacy.section2.li3">To provide customer support and respond to inquiries</li>
+                        <li data-lang="privacy.section2.li4">To send important notices, such as updates to our terms and policies</li>
+                        <li data-lang="privacy.section2.li5">To detect, prevent, and address technical issues and security vulnerabilities</li>
+                        <li data-lang="privacy.section2.li6">To personalize your gaming experience</li>
+                    </ul>
                 </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- 关于我页面 -->
-    <section id="about" class="page min-h-screen">
-        <div class="container mx-auto px-4 py-20">
-            <h1 class="text-4xl md:text-5xl font-light mb-16 text-center">
-                关于<span class="font-normal">我</span>
-            </h1>
-            
-            <div class="flex flex-col md:flex-row items-center mb-24">
-                <div class="md:w-1/3 mb-12 md:mb-0">
-                    <img src="https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/7090096eb90140c89b867deb7ed25370~tplv-a9rns2rl98-image.image?rcl=2025110306491165114C277F4CE87921B6&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1764715790&x-signature=XuNLnBgabiQFjwysFOoZn2omjhg%3D" alt="Developer" class="w-64 h-64 mx-auto rounded-full border border-gray-800">
-                </div>
-                <div class="md:w-2/3 md:pl-16">
-                    <h2 class="text-2xl font-light mb-6">李辉 (LIHUI)</h2>
-                    <p class="text-gray-300 mb-6">
-                        我是一名热爱游戏开发的独立游戏开发者，拥有5年的游戏开发经验。我擅长游戏编程、游戏美术和游戏设计，能够独立完成从概念到成品的整个游戏开发流程。
-                    </p>
-                    <p class="text-gray-300 mb-8">
-                        我热爱创造沉浸式的游戏体验，注重游戏的可玩性和视觉表现。我相信好的游戏应该能够带给玩家乐趣和挑战，同时也能传达一些有意义的信息。
-                    </p>
-                    <div class="flex space-x-6">
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                            <i class="fab fa-github text-2xl"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                            <i class="fab fa-twitter text-2xl"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                            <i class="fab fa-linkedin text-2xl"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                            <i class="fab fa-youtube text-2xl"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="mb-24">
-                <h2 class="text-2xl font-light mb-16 text-center">
-                    我的游戏开发经历
-                </h2>
                 
-                <div class="relative">
-                    <!-- 时间线 -->
-                    <div class="absolute left-1/2 transform -translate-x-1/2 h-full w-px bg-gray-800"></div>
-                    
-                    <!-- 经历项 1 -->
-                    <div class="relative mb-24">
-                        <div class="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-white border-4 border-black"></div>
-                        <div class="flex flex-col md:flex-row items-center">
-                            <div class="md:w-1/2 md:pr-16 md:text-right mb-8 md:mb-0">
-                                <h3 class="text-xl font-light mb-2">独立游戏开发者</h3>
-                                <p class="text-gray-400 mb-4">2020 - 至今</p>
-                                <p class="text-gray-300">
-                                    专注于独立游戏开发，创建了多款2D和3D游戏，涵盖冒险、解谜、平台和角色扮演等多种类型。
-                                </p>
-                            </div>
-                            <div class="md:w-1/2 md:pl-16">
-                                <img src="https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/b2e65db8fb4b4a609bbc8b55b9a25795~tplv-a9rns2rl98-image.image?rcl=2025110306491165114C277F4CE87921B6&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1764715809&x-signature=F6sbJNAt0HbASuw3LIYJRtSG2J8%3D" alt="Indie Game Development" class="w-full aspect-[4/3] object-cover rounded-lg">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- 经历项 2 -->
-                    <div class="relative mb-24">
-                        <div class="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-white border-4 border-black"></div>
-                        <div class="flex flex-col md:flex-row items-center">
-                            <div class="md:w-1/2 md:pr-16 order-2 md:order-1">
-                                <img src="https://p3-doubao-search-sign.byteimg.com/labis/e809fa317943ced041b4c0461f985c18~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777675768&x-signature=LPZEPdTAMkHbpMobN6vFYrF5Ong%3D" alt="Game UI Design" class="w-full aspect-[4/3] object-cover rounded-lg">
-                            </div>
-                            <div class="md:w-1/2 md:pl-16 md:text-left mb-8 md:mb-0 order-1 md:order-2">
-                                <h3 class="text-xl font-light mb-2">游戏UI设计师</h3>
-                                <p class="text-gray-400 mb-4">2018 - 2020</p>
-                                <p class="text-gray-300">
-                                    为多款游戏设计用户界面，专注于创建直观、美观且易于使用的游戏界面，提升玩家体验。
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- 经历项 3 -->
-                    <div class="relative">
-                        <div class="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-white border-4 border-black"></div>
-                        <div class="flex flex-col md:flex-row items-center">
-                            <div class="md:w-1/2 md:pr-16 md:text-right mb-8 md:mb-0">
-                                <h3 class="text-xl font-light mb-2">游戏编程实习生</h3>
-                                <p class="text-gray-400 mb-4">2017 - 2018</p>
-                                <p class="text-gray-300">
-                                    在一家游戏开发公司担任实习生，参与多款游戏的开发工作，学习游戏开发流程和技术。
-                                </p>
-                            </div>
-                            <div class="md:w-1/2 md:pl-16">
-                                <img src="https://p11-doubao-search-sign.byteimg.com/pgc-image/03cb48d7ffe5465c87fd69d1fd4ce3f7~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777675769&x-signature=5D0jCnUt9OyorVK6RbqFIKXQ4d8%3D" alt="Game Programming" class="w-full aspect-[4/3] object-cover rounded-lg">
-                            </div>
-                        </div>
-                    </div>
+                <div class="policy-section">
+                    <h3 data-lang="privacy.section3.title">Information Sharing</h3>
+                    <p data-lang="privacy.section3.p1">We do not sell your personal information to third parties. We may share your information in the following limited circumstances:</p>
+                    <ul>
+                        <li data-lang="privacy.section3.li1">With your consent</li>
+                        <li data-lang="privacy.section3.li2">With service providers who assist us in operating our services (subject to confidentiality agreements)</li>
+                        <li data-lang="privacy.section3.li3">For legal reasons, when we believe in good faith that disclosure is necessary to comply with applicable laws or legal processes</li>
+                        <li data-lang="privacy.section3.li4">To protect the rights, property, or safety of LIHUIGAMES, our users, or the public</li>
+                    </ul>
                 </div>
-            </div>
-            
-            <div>
-                <h2 class="text-2xl font-light mb-16 text-center">
-                    我的技能
-                </h2>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
-                    <!-- 技能组 1 -->
-                    <div>
-                        <h3 class="text-xl font-light mb-8">编程技能</h3>
-                        
-                        <!-- 技能条 -->
-                        <div class="mb-8">
-                            <div class="flex justify-between mb-2">
-                                <span class="text-gray-300">C#</span>
-                                <span class="text-gray-400">90%</span>
-                            </div>
-                            <div class="w-full bg-gray-800 h-1">
-                                <div class="bg-white h-1" style="width: 90%"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="mb-8">
-                            <div class="flex justify-between mb-2">
-                                <span class="text-gray-300">C++</span>
-                                <span class="text-gray-400">80%</span>
-                            </div>
-                            <div class="w-full bg-gray-800 h-1">
-                                <div class="bg-white h-1" style="width: 80%"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="mb-8">
-                            <div class="flex justify-between mb-2">
-                                <span class="text-gray-300">JavaScript</span>
-                                <span class="text-gray-400">85%</span>
-                            </div>
-                            <div class="w-full bg-gray-800 h-1">
-                                <div class="bg-white h-1" style="width: 85%"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="mb-8">
-                            <div class="flex justify-between mb-2">
-                                <span class="text-gray-300">Python</span>
-                                <span class="text-gray-400">70%</span>
-                            </div>
-                            <div class="w-full bg-gray-800 h-1">
-                                <div class="bg-white h-1" style="width: 70%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- 技能组 2 -->
-                    <div>
-                        <h3 class="text-xl font-light mb-8">游戏开发技能</h3>
-                        
-                        <div class="mb-8">
-                            <div class="flex justify-between mb-2">
-                                <span class="text-gray-300">Unity</span>
-                                <span class="text-gray-400">95%</span>
-                            </div>
-                            <div class="w-full bg-gray-800 h-1">
-                                <div class="bg-white h-1" style="width: 95%"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="mb-8">
-                            <div class="flex justify-between mb-2">
-                                <span class="text-gray-300">Unreal Engine</span>
-                                <span class="text-gray-400">75%</span>
-                            </div>
-                            <div class="w-full bg-gray-800 h-1">
-                                <div class="bg-white h-1" style="width: 75%"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="mb-8">
-                            <div class="flex justify-between mb-2">
-                                <span class="text-gray-300">游戏设计</span>
-                                <span class="text-gray-400">85%</span>
-                            </div>
-                            <div class="w-full bg-gray-800 h-1">
-                                <div class="bg-white h-1" style="width: 85%"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="mb-8">
-                            <div class="flex justify-between mb-2">
-                                <span class="text-gray-300">游戏美术</span>
-                                <span class="text-gray-400">80%</span>
-                            </div>
-                            <div class="w-full bg-gray-800 h-1">
-                                <div class="bg-white h-1" style="width: 80%"></div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="policy-section">
+                    <h3 data-lang="privacy.section4.title">Data Security</h3>
+                    <p data-lang="privacy.section4.p1">We implement appropriate technical and organizational security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.</p>
+                    <p data-lang="privacy.section4.p2">While we strive to use commercially acceptable means to protect your personal information, we cannot guarantee its absolute security.</p>
+                </div>
+                
+                <div class="policy-section">
+                    <h3 data-lang="privacy.section5.title">Children's Privacy</h3>
+                    <p data-lang="privacy.section5.p1">Our services are not directed to individuals under the age of 13. We do not knowingly collect personal information from children under 13. If we become aware that a child under 13 has provided us with personal information, we will take steps to delete such information.</p>
+                </div>
+                
+                <div class="policy-section">
+                    <h3 data-lang="privacy.section6.title">Changes to This Policy</h3>
+                    <p data-lang="privacy.section6.p1">We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last Updated" date.</p>
+                    <p data-lang="privacy.section6.p2">You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page.</p>
+                </div>
+                
+                <div class="policy-section">
+                    <h3 data-lang="privacy.section7.title">Contact Us</h3>
+                    <p data-lang="privacy.section7.p1">If you have any questions about this Privacy Policy, please contact us:</p>
+                    <ul>
+                        <li data-lang="privacy.section7.li1">By email: privacy@lihuigames.com</li>
+                        <li data-lang="privacy.section7.li2">By visiting this page on our website: <a href="#contact" data-lang="privacy.section7.li2.link">Contact Us</a></li>
+                        <li data-lang="privacy.section7.li3">By mail: 123 Game Dev Street, San Francisco, CA 94103</li>
+                    </ul>
+                    <p class="policy-date" data-lang="privacy.lastUpdated">Last Updated: June 15, 2023</p>
                 </div>
             </div>
         </div>
     </section>
-    
-    <!-- 隐私政策页面 -->
-    <section id="privacy" class="page min-h-screen">
-        <div class="container mx-auto px-4 py-20 max-w-4xl">
-            <h1 class="text-4xl md:text-5xl font-light mb-16 text-center">
-                隐私<span class="font-normal">政策</span>
-            </h1>
-            
-            <div class="space-y-12">
-                <div>
-                    <h2 class="text-2xl font-light mb-6">隐私政策概述</h2>
-                    <p class="text-gray-300 mb-4">
-                        本隐私政策描述了LIHUIGAMES如何收集、使用、存储和共享您的个人信息。我们致力于保护您的隐私，并确保您的个人信息安全。
-                    </p>
-                </div>
-                
-                <div>
-                    <h2 class="text-2xl font-light mb-6">我们收集的信息</h2>
-                    <p class="text-gray-300 mb-4">
-                        我们可能收集以下类型的信息：
-                    </p>
-                    <ul class="list-disc list-inside text-gray-300 space-y-2 pl-4">
-                        <li>个人识别信息，如姓名、电子邮件地址、电话号码等</li>
-                        <li>设备信息，如设备型号、操作系统版本、IP地址等</li>
-                        <li>游戏使用数据，如游戏进度、成就、游戏内购买等</li>
-                        <li>网站使用数据，如访问的页面、停留时间、点击行为等</li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h2 class="text-2xl font-light mb-6">我们如何使用您的信息</h2>
-                    <p class="text-gray-300 mb-4">
-                        我们使用收集的信息用于以下目的：
-                    </p>
-                    <ul class="list-disc list-inside text-gray-300 space-y-2 pl-4">
-                        <li>提供、维护和改进我们的游戏和服务</li>
-                        <li>开发新的游戏和服务</li>
-                        <li>个性化您的游戏体验</li>
-                        <li>与您沟通，如发送更新通知、支持请求回复等</li>
-                        <li>保护我们的游戏和服务的安全</li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h2 class="text-2xl font-light mb-6">信息共享</h2>
-                    <p class="text-gray-300 mb-4">
-                        我们不会出售您的个人信息。我们可能在以下情况下共享您的信息：
-                    </p>
-                    <ul class="list-disc list-inside text-gray-300 space-y-2 pl-4">
-                        <li>获得您的明确同意</li>
-                        <li>遵守法律要求或响应法律程序</li>
-                        <li>保护LIHUIGAMES、我们的用户或公众的权利、财产或安全</li>
-                        <li>与我们的关联公司、服务提供商和合作伙伴共享，这些方必须按照我们的指示处理信息并保持保密</li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h2 class="text-2xl font-light mb-6">数据安全</h2>
-                    <p class="text-gray-300 mb-4">
-                        我们采取适当的技术和组织措施来保护您的个人信息免受未经授权的访问、使用、披露、修改或销毁。这些措施包括：
-                    </p>
-                    <ul class="list-disc list-inside text-gray-300 space-y-2 pl-4">
-                        <li>数据加密</li>
-                        <li>访问控制</li>
-                        <li>安全审计</li>
-                        <li>定期安全更新</li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h2 class="text-2xl font-light mb-6">您的权利</h2>
-                    <p class="text-gray-300 mb-4">
-                        根据适用的隐私法律，您可能享有以下权利：
-                    </p>
-                    <ul class="list-disc list-inside text-gray-300 space-y-2 pl-4">
-                        <li>访问您的个人信息</li>
-                        <li>更正不准确的个人信息</li>
-                        <li>删除您的个人信息</li>
-                        <li>限制个人信息的处理</li>
-                        <li>数据可携带权</li>
-                        <li>反对个人信息的处理</li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h2 class="text-2xl font-light mb-6">隐私政策更新</h2>
-                    <p class="text-gray-300 mb-4">
-                        我们可能会不时更新本隐私政策。当我们进行重大更改时，我们将在我们的网站上发布更新的隐私政策，并在适当情况下通知您。
-                    </p>
-                </div>
-                
-                <div>
-                    <h2 class="text-2xl font-light mb-6">联系我们</h2>
-                    <p class="text-gray-300 mb-4">
-                        如果您对本隐私政策有任何问题或疑虑，请通过以下方式联系我们：
-                    </p>
-                    <p class="text-gray-300">
-                        <a href="mailto:privacy@lihuigames.com" class="text-white hover:underline">privacy@lihuigames.com</a>
-                    </p>
-                </div>
+
+    <!-- 联系区域 -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2 data-lang="contact.title">Contact Us</h2>
+                <p data-lang="contact.subtitle">Have questions or want to collaborate? Get in touch with our team.</p>
+            </div>
+            <div class="contact-form">
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name" data-lang="contact.form.name">Name</label>
+                        <input type="text" id="name" class="form-control" placeholder data-lang="contact.form.namePlaceholder" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" data-lang="contact.form.email">Email</label>
+                        <input type="email" id="email" class="form-control" placeholder data-lang="contact.form.emailPlaceholder" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject" data-lang="contact.form.subject">Subject</label>
+                        <input type="text" id="subject" class="form-control" placeholder data-lang="contact.form.subjectPlaceholder" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message" data-lang="contact.form.message">Message</label>
+                        <textarea id="message" class="form-control" placeholder data-lang="contact.form.messagePlaceholder" required></textarea>
+                    </div>
+                    <button type="submit" class="btn" data-lang="contact.form.submit">Send Message</button>
+                </form>
             </div>
         </div>
     </section>
-    
-    <!-- 联系页面 -->
-    <section id="contact" class="page min-h-screen">
-        <div class="container mx-auto px-4 py-20">
-            <h1 class="text-4xl md:text-5xl font-light mb-16 text-center">
-                联系<span class="font-normal">我</span>
-            </h1>
-            
-            <div class="flex flex-col md:flex-row gap-16">
-                <div class="md:w-1/2">
-                    <div class="bg-dark p-8 rounded-lg border border-gray-800 h-full">
-                        <h2 class="text-2xl font-light mb-8">发送消息</h2>
-                        
-                        <form id="contact-form">
-                            <div class="mb-6">
-                                <label for="name" class="block text-gray-300 mb-2">姓名</label>
-                                <input type="text" id="name" class="w-full bg-black border border-gray-800 rounded px-4 py-3 text-white focus:outline-none focus:border-white">
-                            </div>
-                            
-                            <div class="mb-6">
-                                <label for="email" class="block text-gray-300 mb-2">电子邮件</label>
-                                <input type="email" id="email" class="w-full bg-black border border-gray-800 rounded px-4 py-3 text-white focus:outline-none focus:border-white">
-                            </div>
-                            
-                            <div class="mb-6">
-                                <label for="subject" class="block text-gray-300 mb-2">主题</label>
-                                <input type="text" id="subject" class="w-full bg-black border border-gray-800 rounded px-4 py-3 text-white focus:outline-none focus:border-white">
-                            </div>
-                            
-                            <div class="mb-8">
-                                <label for="message" class="block text-gray-300 mb-2">消息</label>
-                                <textarea id="message" rows="6" class="w-full bg-black border border-gray-800 rounded px-4 py-3 text-white focus:outline-none focus:border-white"></textarea>
-                            </div>
-                            
-                            <button type="submit" class="btn-hover border border-white px-8 py-3 text-sm uppercase tracking-wider w-full">
-                                发送消息
-                            </button>
-                        </form>
-                    </div>
-                </div>
-                
-                <div class="md:w-1/2">
-                    <div class="bg-dark p-8 rounded-lg border border-gray-800 mb-8">
-                        <h2 class="text-2xl font-light mb-8">联系信息</h2>
-                        
-                        <div class="space-y-6">
-                            <div class="flex items-start">
-                                <div class="text-xl mr-6 mt-1">
-                                    <i class="fas fa-envelope"></i>
-                                </div>
-                                <div>
-                                    <h3 class="font-light mb-1">电子邮件</h3>
-                                    <p class="text-gray-400">contact@lihuigames.com</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-start">
-                                <div class="text-xl mr-6 mt-1">
-                                    <i class="fas fa-phone-alt"></i>
-                                </div>
-                                <div>
-                                    <h3 class="font-light mb-1">电话</h3>
-                                    <p class="text-gray-400">+86 123 4567 8901</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-start">
-                                <div class="text-xl mr-6 mt-1">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                </div>
-                                <div>
-                                    <h3 class="font-light mb-1">地址</h3>
-                                    <p class="text-gray-400">中国上海市浦东新区张江高科技园区</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-dark p-8 rounded-lg border border-gray-800">
-                        <h2 class="text-2xl font-light mb-8">关注我</h2>
-                        
-                        <div class="flex space-x-8">
-                            <a href="#" class="text-gray-400 hover:text-white transition-colors text-3xl">
-                                <i class="fab fa-github"></i>
-                            </a>
-                            <a href="#" class="text-gray-400 hover:text-white transition-colors text-3xl">
-                                <i class="fab fa-twitter"></i>
-                            </a>
-                            <a href="#" class="text-gray-400 hover:text-white transition-colors text-3xl">
-                                <i class="fab fa-linkedin"></i>
-                            </a>
-                            <a href="#" class="text-gray-400 hover:text-white transition-colors text-3xl">
-                                <i class="fab fa-youtube"></i>
-                            </a>
-                            <a href="#" class="text-gray-400 hover:text-white transition-colors text-3xl">
-                                <i class="fab fa-instagram"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
+
     <!-- 页脚 -->
-    <footer class="bg-black py-12 border-t border-gray-800">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="mb-6 md:mb-0">
-                    <a href="#" class="flex items-center space-x-3" data-page="home">
-                        <img src="https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/7090096eb90140c89b867deb7ed25370~tplv-a9rns2rl98-image.image?rcl=2025110306491165114C277F4CE87921B6&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1764715790&x-signature=XuNLnBgabiQFjwysFOoZn2omjhg%3D" alt="Logo" class="w-8 h-8 rounded-full">
-                        <span class="text-lg font-light tracking-wider">LIHUI<span class="font-normal">GAMES</span></span>
-                    </a>
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <!-- 公司信息 -->
+                <div class="footer-column">
+                    <h3>LIHUIGAMES</h3>
+                    <p data-lang="footer.description">Creating immersive gaming experiences that captivate players and push the boundaries of innovation.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
                 </div>
-                
-                <div class="flex flex-wrap justify-center gap-x-8 gap-y-4 mb-6 md:mb-0">
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors text-sm uppercase tracking-wider" data-page="home">首页</a>
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors text-sm uppercase tracking-wider" data-page="games">游戏</a>
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors text-sm uppercase tracking-wider" data-page="about">关于我</a>
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors text-sm uppercase tracking-wider" data-page="privacy">隐私政策</a>
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors text-sm uppercase tracking-wider" data-page="contact">联系</a>
+                <!-- 快速链接 -->
+                <div class="footer-column">
+                    <h3 data-lang="footer.quickLinks">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home" data-lang="nav.home">Home</a></li>
+                        <li><a href="#games" data-lang="nav.games">Games</a></li>
+                        <li><a href="#about" data-lang="nav.about">About</a></li>
+                        <li><a href="#privacy-policy" data-lang="nav.privacy">Privacy Policy</a></li>
+                        <li><a href="#contact" data-lang="nav.contact">Contact</a></li>
+                    </ul>
                 </div>
-                
-                <div>
-                    <p class="text-gray-500 text-sm">
-                        &copy; 2023 LIHUIGAMES. 保留所有权利。
-                    </p>
+                <!-- 支持信息 -->
+                <div class="footer-column">
+                    <h3 data-lang="footer.support">Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#faq" data-lang="footer.faq">FAQ</a></li>
+                        <li><a href="#privacy-policy" data-lang="nav.privacy">Privacy Policy</a></li>
+                        <li><a href="#terms" data-lang="footer.terms">Terms of Service</a></li>
+                        <li><a href="#careers" data-lang="footer.careers">Careers</a></li>
+                    </ul>
                 </div>
+                <!-- 联系信息 -->
+                <div class="footer-column">
+                    <h3 data-lang="footer.contactInfo">Contact Info</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> <span data-lang="footer.address">123 Game Dev Street, San Francisco, CA 94103</span></li>
+                        <li><i class="fas fa-envelope"></i> info@lihuigames.com</li>
+                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 LIHUIGAMES. <span data-lang="footer.rights">All rights reserved.</span> | <a href="#privacy-policy" data-lang="nav.privacy">Privacy Policy</a></p>
             </div>
         </div>
     </footer>
-    
+
+    <!-- 引入JavaScript文件 -->
     <script>
-        // 游戏数据
-        const gamesData = [
-            {
-                id: 1,
-                title: "Ancient Ruins Adventure",
-                description: "一款探索古文明遗迹的冒险游戏，玩家需要解开谜题，发现隐藏的宝藏。游戏采用极简的黑白风格，营造出神秘的古文明氛围。玩家将在游戏中探索各种遗迹，解开古老的谜题，与各种生物互动，最终发现隐藏的宝藏。",
-                features: [
-                    "极简的黑白艺术风格",
-                    "丰富的谜题和解谜机制",
-                    "沉浸式的游戏体验",
-                    "多样化的探索区域",
-                    "引人入胜的故事情节"
-                ],
-                screenshots: [
-                    "https://p11-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/2281264766824873990~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777675768&x-signature=Vf1FWx%2BABjn2JWZihVWV3n1Ub7s%3D"
-                ],
-                releaseDate: "2023-06-15",
-                platform: "PC, PlayStation 5, Xbox Series X",
-                genre: "冒险, 解谜, 极简",
-                engine: "Unity"
+        // 语言包定义
+        const languagePack = {
+            'en': {
+                // 导航栏
+                'nav.home': 'Home',
+                'nav.games': 'Games',
+                'nav.about': 'About',
+                'nav.privacy': 'Privacy Policy',
+                'nav.contact': 'Contact',
+                
+                // 英雄区域
+                'hero.title': 'Creating Immersive Gaming Experiences',
+                'hero.subtitle': 'LIHUIGAMES is an innovative game development studio dedicated to creating captivating and immersive gaming experiences for players worldwide.',
+                'hero.button': 'Explore Our Games',
+                
+                // 游戏区域
+                'games.title': 'Our Games',
+                'games.subtitle': 'Discover our portfolio of innovative and engaging games across multiple platforms.',
+                'games.game1.title': 'Cyber Nexus',
+                'games.game1.description': 'An action-packed cyberpunk RPG set in a dystopian future where technology and humanity collide.',
+                'games.game2.title': 'Mythic Realms',
+                'games.game2.description': 'Explore a vast fantasy world filled with ancient magic, mythical creatures, and epic quests.',
+                'games.game3.title': 'Quantum Drift',
+                'games.game3.description': 'A high-speed racing game with futuristic vehicles and gravity-defying tracks across multiple dimensions.',
+                'games.learnMore': 'Learn More',
+                
+                // 关于我们区域
+                'about.title': 'About LIHUIGAMES',
+                'about.subtitle': 'Learn more about our studio and our mission to create unforgettable gaming experiences.',
+                'about.ourStory': 'Our Story',
+                'about.story1': 'Founded in 2018, LIHUIGAMES began as a small team of passionate game developers with a shared vision: to create games that push the boundaries of innovation and storytelling.',
+                'about.story2': 'Today, we\'ve grown into a full-fledged studio with over 50 talented developers, artists, and designers working together to bring our creative visions to life.',
+                'about.story3': 'Our philosophy is simple: prioritize player experience, embrace new technologies, and never stop innovating.',
+                'about.joinTeam': 'Join Our Team',
+                
+                // 隐私政策区域
+                'privacy.title': 'Privacy Policy',
+                'privacy.subtitle': 'Your privacy is important to us. Learn how we collect, use, and protect your information.',
+                'privacy.section1.title': 'Information We Collect',
+                'privacy.section1.p1': 'We collect information to provide better services to our users. The types of information we collect include:',
+                'privacy.section1.li1.title': 'Personal Information:',
+                'privacy.section1.li1.text': 'When you create an account, we may ask for personal information such as your name, email address, and date of birth.',
+                'privacy.section1.li2.title': 'Game Data:',
+                'privacy.section1.li2.text': 'We collect data about your gameplay, including progress, achievements, and in-game purchases.',
+                'privacy.section1.li3.title': 'Device Information:',
+                'privacy.section1.li3.text': 'We collect device-specific information such as hardware model, operating system, and unique device identifiers.',
+                'privacy.section1.li4.title': 'Log Information:',
+                'privacy.section1.li4.text': 'When you use our services, we automatically collect and store certain information in server logs.',
+                'privacy.section2.title': 'How We Use Information',
+                'privacy.section2.p1': 'We use the information we collect for the following purposes:',
+                'privacy.section2.li1': 'To provide, maintain, and improve our games and services',
+                'privacy.section2.li2': 'To develop new games and features',
+                'privacy.section2.li3': 'To provide customer support and respond to inquiries',
+                'privacy.section2.li4': 'To send important notices, such as updates to our terms and policies',
+                'privacy.section2.li5': 'To detect, prevent, and address technical issues and security vulnerabilities',
+                'privacy.section2.li6': 'To personalize your gaming experience',
+                'privacy.section3.title': 'Information Sharing',
+                'privacy.section3.p1': 'We do not sell your personal information to third parties. We may share your information in the following limited circumstances:',
+                'privacy.section3.li1': 'With your consent',
+                'privacy.section3.li2': 'With service providers who assist us in operating our services (subject to confidentiality agreements)',
+                'privacy.section3.li3': 'For legal reasons, when we believe in good faith that disclosure is necessary to comply with applicable laws or legal processes',
+                'privacy.section3.li4': 'To protect the rights, property, or safety of LIHUIGAMES, our users, or the public',
+                'privacy.section4.title': 'Data Security',
+                'privacy.section4.p1': 'We implement appropriate technical and organizational security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.',
+                'privacy.section4.p2': 'While we strive to use commercially acceptable means to protect your personal information, we cannot guarantee its absolute security.',
+                'privacy.section5.title': 'Children\'s Privacy',
+                'privacy.section5.p1': 'Our services are not directed to individuals under the age of 13. We do not knowingly collect personal information from children under 13. If we become aware that a child under 13 has provided us with personal information, we will take steps to delete such information.',
+                'privacy.section6.title': 'Changes to This Policy',
+                'privacy.section6.p1': 'We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last Updated" date.',
+                'privacy.section6.p2': 'You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page.',
+                'privacy.section7.title': 'Contact Us',
+                'privacy.section7.p1': 'If you have any questions about this Privacy Policy, please contact us:',
+                'privacy.section7.li1': 'By email: privacy@lihuigames.com',
+                'privacy.section7.li2': 'By visiting this page on our website: ',
+                'privacy.section7.li2.link': 'Contact Us',
+                'privacy.section7.li3': 'By mail: 123 Game Dev Street, San Francisco, CA 94103',
+                'privacy.lastUpdated': 'Last Updated: June 15, 2023',
+                
+                // 联系区域
+                'contact.title': 'Contact Us',
+                'contact.subtitle': 'Have questions or want to collaborate? Get in touch with our team.',
+                'contact.form.name': 'Name',
+                'contact.form.namePlaceholder': 'Your Name',
+                'contact.form.email': 'Email',
+                'contact.form.emailPlaceholder': 'Your Email',
+                'contact.form.subject': 'Subject',
+                'contact.form.subjectPlaceholder': 'Subject',
+                'contact.form.message': 'Message',
+                'contact.form.messagePlaceholder': 'Your Message',
+                'contact.form.submit': 'Send Message',
+                
+                // 页脚
+                'footer.description': 'Creating immersive gaming experiences that captivate players and push the boundaries of innovation.',
+                'footer.quickLinks': 'Quick Links',
+                'footer.support': 'Support',
+                'footer.faq': 'FAQ',
+                'footer.terms': 'Terms of Service',
+                'footer.careers': 'Careers',
+                'footer.contactInfo': 'Contact Info',
+                'footer.address': '123 Game Dev Street, San Francisco, CA 94103',
+                'footer.rights': 'All rights reserved.'
             },
-            {
-                id: 2,
-                title: "Pixel Platformer",
-                description: "一款经典的像素风格横版平台游戏，拥有精美的像素艺术和流畅的游戏体验。玩家将控制角色在各种关卡中跳跃、奔跑、收集物品，击败敌人，最终到达终点。游戏拥有丰富的关卡设计和多样的游戏机制，为玩家提供有趣且具有挑战性的游戏体验。",
-                features: [
-                    "精美的像素艺术风格",
-                    "流畅的游戏控制",
-                    "多样化的关卡设计",
-                    "丰富的游戏机制",
-                    "具有挑战性的 boss 战"
-                ],
-                screenshots: [
-                    "https://p26-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/973056580772691973~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777675769&x-signature=RuOP0u3YHmkJeCpn5qg7v3aigis%3D"
-                ],
-                releaseDate: "2022-11-20",
-                platform: "PC, Nintendo Switch, Mobile",
-                genre: "平台, 像素艺术, 2D",
-                engine: "GameMaker Studio"
-            },
-            {
-                id: 3,
-                title: "Floating Island",
-                description: "一款开放世界探索游戏，玩家可以在漂浮的岛屿之间穿梭，发现隐藏的秘密。游戏拥有广阔的开放世界，玩家可以自由探索各种漂浮的岛屿，发现隐藏的宝藏，解开岛屿的秘密。游戏采用极简的黑白风格，营造出梦幻般的游戏世界。",
-                features: [
-                    "广阔的开放世界",
-                    "极简的黑白艺术风格",
-                    "自由的探索体验",
-                    "丰富的收集要素",
-                    "神秘的游戏世界观"
-                ],
-                screenshots: [
-                    "https://p11-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/2222501359357132801~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777675768&x-signature=ugK1ddVrej%2FJqO4wY7Yb6f2I0HA%3D"
-                ],
-                releaseDate: "2023-03-10",
-                platform: "PC, PlayStation 5, Xbox Series X",
-                genre: "开放世界, 探索, 极简",
-                engine: "Unreal Engine 5"
-            },
-            {
-                id: 4,
-                title: "Pixel Castle",
-                description: "一款像素风格的角色扮演游戏，玩家需要探索城堡，与怪物战斗，完成任务。游戏拥有丰富的角色定制系统，玩家可以根据自己的喜好创建角色，选择不同的职业和技能。游戏还拥有深度的剧情和多样的任务系统，为玩家提供沉浸式的角色扮演体验。",
-                features: [
-                    "丰富的角色定制系统",
-                    "多样的职业和技能",
-                    "深度的剧情",
-                    "丰富的任务系统",
-                    "精美的像素艺术风格"
-                ],
-                screenshots: [
-                    "https://p11-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/2264879174598131724~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777675768&x-signature=7tQ6qa8cWbyEI1p9Eo24k8mQ6oo%3D"
-                ],
-                releaseDate: "2022-08-05",
-                platform: "PC, Nintendo Switch",
-                genre: "角色扮演, 像素艺术, 2D",
-                engine: "RPG Maker MV"
-            },
-            {
-                id: 5,
-                title: "Dragon Puzzle",
-                description: "一款以中国龙为主题的益智消除游戏，拥有极简的黑白风格和流畅的操作体验。玩家需要通过消除相同颜色的宝石，获得高分，解锁新的关卡和角色。游戏拥有丰富的关卡设计和多样的游戏模式，为玩家提供有趣且具有挑战性的游戏体验。",
-                features: [
-                    "极简的黑白艺术风格",
-                    "流畅的消除操作",
-                    "丰富的关卡设计",
-                    "多样的游戏模式",
-                    "可爱的角色设计"
-                ],
-                screenshots: [
-                    "https://p3-doubao-search-sign.byteimg.com/labis/5bd0472cf806a2dc54c44aa3db65c77e~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777675768&x-signature=4z6OjDI1squ19AwWjNuKYoFf0bU%3D"
-                ],
-                releaseDate: "2023-01-20",
-                platform: "Mobile, PC",
-                genre: "益智, 消除, 极简",
-                engine: "Unity"
-            },
-            {
-                id: 6,
-                title: "Strategy Board",
-                description: "一款策略棋盘游戏，玩家需要制定战术，收集资源，建造防御设施，击败对手。游戏拥有深度的策略系统，玩家需要合理规划资源，制定战术，才能在游戏中取得胜利。游戏还支持多人对战，玩家可以与朋友一起游玩，体验策略对战的乐趣。",
-                features: [
-                    "深度的策略系统",
-                    "丰富的资源管理",
-                    "多样的建筑和单位",
-                    "支持多人对战",
-                    "极简的艺术风格"
-                ],
-                screenshots: [
-                    "https://p11-doubao-search-sign.byteimg.com/pgc-image/1528942856328ec3a1ab018~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777675768&x-signature=1v6mZtFoAa3gaxo%2Boc9nXQgOpqY%3D"
-                ],
-                releaseDate: "2022-05-15",
-                platform: "PC, Mobile",
-                genre: "策略, 棋盘, 极简",
-                engine: "Unity"
+            'zh': {
+                // 导航栏
+                'nav.home': '首页',
+                'nav.games': '游戏',
+                'nav.about': '关于我们',
+                'nav.privacy': '隐私政策',
+                'nav.contact': '联系我们',
+                
+                // 英雄区域
+                'hero.title': '创造沉浸式游戏体验',
+                'hero.subtitle': 'LIHUIGAMES是一家创新的游戏开发工作室，致力于为全球玩家创造引人入胜的沉浸式游戏体验。',
+                'hero.button': '探索我们的游戏',
+                
+                // 游戏区域
+                'games.title': '我们的游戏',
+                'games.subtitle': '发现我们在多个平台上的创新和引人入胜的游戏组合。',
+                'games.game1.title': '赛博连结',
+                'games.game1.description': '一款设定在反乌托邦未来的动作角色扮演游戏，讲述科技与人性碰撞的故事。',
+                'games.game2.title': '神话领域',
+                'games.game2.description': '探索一个充满古老魔法、神话生物和史诗任务的广阔奇幻世界。',
+                'games.game3.title': '量子漂移',
+                'games.game3.description': '一款高速赛车游戏，拥有未来主义车辆和跨越多个维度的重力挑战赛道。',
+                'games.learnMore': '了解更多',
+                
+                // 关于我们区域
+                'about.title': '关于LIHUIGAMES',
+                'about.subtitle': '了解更多关于我们工作室以及我们创造难忘游戏体验的使命。',
+                'about.ourStory': '我们的故事',
+                'about.story1': '成立于2018年，LIHUIGAMES最初是一个由充满激情的游戏开发者组成的小团队，他们有着共同的愿景：创造能够突破创新和叙事边界的游戏。',
+                'about.story2': '今天，我们已经发展成为一个成熟的工作室，拥有超过50名才华横溢的开发人员、艺术家和设计师，共同将我们的创意愿景变为现实。',
+                'about.story3': '我们的理念很简单：优先考虑玩家体验，拥抱新技术，永不停息创新。',
+                'about.joinTeam': '加入我们的团队',
+                
+                // 隐私政策区域
+                'privacy.title': '隐私政策',
+                'privacy.subtitle': '您的隐私对我们很重要。了解我们如何收集、使用和保护您的信息。',
+                'privacy.section1.title': '我们收集的信息',
+                'privacy.section1.p1': '我们收集信息是为了向用户提供更好的服务。我们收集的信息类型包括：',
+                'privacy.section1.li1.title': '个人信息：',
+                'privacy.section1.li1.text': '当您创建帐户时，我们可能会要求提供个人信息，如您的姓名、电子邮件地址和出生日期。',
+                'privacy.section1.li2.title': '游戏数据：',
+                'privacy.section1.li2.text': '我们收集有关您游戏玩法的数据，包括进度、成就和游戏内购买。',
+                'privacy.section1.li3.title': '设备信息：',
+                'privacy.section1.li3.text': '我们收集设备特定信息，如硬件型号、操作系统和唯一设备标识符。',
+                'privacy.section1.li4.title': '日志信息：',
+                'privacy.section1.li4.text': '当您使用我们的服务时，我们会自动收集并存储服务器日志中的某些信息。',
+                'privacy.section2.title': '我们如何使用信息',
+                'privacy.section2.p1': '我们使用收集的信息用于以下目的：',
+                'privacy.section2.li1': '提供、维护和改进我们的游戏和服务',
+                'privacy.section2.li2': '开发新游戏和功能',
+                'privacy.section2.li3': '提供客户支持并回应查询',
+                'privacy.section2.li4': '发送重要通知，例如我们的条款和政策的更新',
+                'privacy.section2.li5': '检测、预防和解决技术问题和安全漏洞',
+                'privacy.section2.li6': '个性化您的游戏体验',
+                'privacy.section3.title': '信息共享',
+                'privacy.section3.p1': '我们不会将您的个人信息出售给第三方。我们可能在以下有限情况下共享您的信息：',
+                'privacy.section3.li1': '经您同意',
+                'privacy.section3.li2': '与帮助我们运营服务的服务提供商共享（受保密协议约束）',
+                'privacy.section3.li3': '出于法律原因，当我们善意认为披露是遵守适用法律或法律程序所必需的',
+                'privacy.section3.li4': '为保护LIHUIGAMES、我们的用户或公众的权利、财产或安全',
+                'privacy.section4.title': '数据安全',
+                'privacy.section4.p1': '我们实施适当的技术和组织安全措施，以保护您的个人信息免受未经授权的访问、更改、披露或破坏。',
+                'privacy.section4.p2': '虽然我们努力使用商业上可接受的方式来保护您的个人信息，但我们无法保证其绝对安全。',
+                'privacy.section5.title': '儿童隐私',
+                'privacy.section5.p1': '我们的服务不针对13岁以下的个人。我们不会故意收集13岁以下儿童的个人信息。如果我们意识到13岁以下的儿童向我们提供了个人信息，我们将采取措施删除此类信息。',
+                'privacy.section6.title': '本政策的变更',
+                'privacy.section6.p1': '我们可能会不时更新我们的隐私政策。我们将通过在此页面上发布新的隐私政策并更新"最后更新"日期来通知您任何更改。',
+                'privacy.section6.p2': '建议您定期查看本隐私政策以了解任何更改。本隐私政策的更改在发布在此页面上时生效。',
+                'privacy.section7.title': '联系我们',
+                'privacy.section7.p1': '如果您对此隐私政策有任何疑问，请通过以下方式联系我们：',
+                'privacy.section7.li1': '通过电子邮件：privacy@lihuigames.com',
+                'privacy.section7.li2': '通过访问我们网站上的此页面：',
+                'privacy.section7.li2.link': '联系我们',
+                'privacy.section7.li3': '通过邮件：123 Game Dev Street, San Francisco, CA 94103',
+                'privacy.lastUpdated': '最后更新：2023年6月15日',
+                
+                // 联系区域
+                'contact.title': '联系我们',
+                'contact.subtitle': '有问题或想合作？与我们的团队取得联系。',
+                'contact.form.name': '姓名',
+                'contact.form.namePlaceholder': '您的姓名',
+                'contact.form.email': '邮箱',
+                'contact.form.emailPlaceholder': '您的邮箱',
+                'contact.form.subject': '主题',
+                'contact.form.subjectPlaceholder': '主题',
+                'contact.form.message': '消息',
+                'contact.form.messagePlaceholder': '您的消息',
+                'contact.form.submit': '发送消息',
+                
+                // 页脚
+                'footer.description': '创造沉浸式游戏体验，吸引玩家并突破创新边界。',
+                'footer.quickLinks': '快速链接',
+                'footer.support': '支持',
+                'footer.faq': '常见问题',
+                'footer.terms': '服务条款',
+                'footer.careers': '招聘信息',
+                'footer.contactInfo': '联系信息',
+                'footer.address': '游戏开发街123号，旧金山，加利福尼亚 94103',
+                'footer.rights': '保留所有权利。'
             }
-        ];
-        
-        // DOM 加载完成后执行
+        };
+
+        // 当前语言
+        let currentLang = 'en';
+
+        // 页面加载完成后执行
         document.addEventListener('DOMContentLoaded', function() {
-            // 初始化语言
+            // 初始化语言设置
             initLanguage();
             
-            // 初始化页面切换
-            initPageNavigation();
+            // 移动菜单切换功能
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const navLinks = document.querySelector('.nav-links');
             
-            // 初始化移动端菜单
-            initMobileMenu();
-            
-            // 初始化游戏详情模态框
-            initGameDetailModal();
-            
-            // 初始化联系表单
-            initContactForm();
-            
-
-        });
-        
-        // 初始化语言
-        function initLanguage() {
-            // 获取浏览器语言
-            const browserLang = navigator.language || navigator.userLanguage;
-            const isChinese = browserLang.startsWith('zh');
-            
-            // 设置初始语言
-            setLanguage(isChinese ? 'zh' : 'en');
-            
-            // 语言切换按钮点击事件
-            document.getElementById('language-toggle').addEventListener('click', function() {
-                toggleLanguage();
-            });
-            
-            document.getElementById('mobile-language-toggle').addEventListener('click', function() {
-                toggleLanguage();
-            });
-        }
-        
-        // 切换语言
-        function toggleLanguage() {
-            const currentLang = document.querySelector('.lang-zh').classList.contains('hidden') ? 'en' : 'zh';
-            const newLang = currentLang === 'zh' ? 'en' : 'zh';
-            setLanguage(newLang);
-        }
-        
-        // 设置语言
-        function setLanguage(lang) {
-            if (lang === 'zh') {
-                document.querySelectorAll('.lang-zh').forEach(el => el.classList.remove('hidden'));
-                document.querySelectorAll('.lang-en').forEach(el => el.classList.add('hidden'));
-                document.documentElement.lang = 'zh-CN';
-                document.getElementById('typing-text').textContent = '游戏开发者';
-            } else {
-                document.querySelectorAll('.lang-zh').forEach(el => el.classList.add('hidden'));
-                document.querySelectorAll('.lang-en').forEach(el => el.classList.remove('hidden'));
-                document.documentElement.lang = 'en-US';
-                document.getElementById('typing-text').textContent = 'Game Developer';
+            if (mobileMenu) {
+                mobileMenu.addEventListener('click', function() {
+                    navLinks.classList.toggle('active');
+                });
             }
-        }
-        
-        // 初始化页面导航
-        function initPageNavigation() {
-            // 导航链接点击事件
-            document.querySelectorAll('[data-page]').forEach(link => {
+            
+            // 语言切换功能
+            const langToggle = document.getElementById('lang-toggle');
+            if (langToggle) {
+                langToggle.addEventListener('click', function() {
+                    toggleLanguage();
+                });
+            }
+            
+            // 平滑滚动功能
+            const smoothScrollLinks = document.querySelectorAll('a[href^="#"]');
+            
+            smoothScrollLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
-                    const pageId = this.getAttribute('data-page');
-                    navigateToPage(pageId);
-                });
-            });
-        }
-        
-        // 页面导航
-        function navigateToPage(pageId) {
-            // 隐藏所有页面
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-            
-            // 显示目标页面
-            document.getElementById(pageId).classList.add('active');
-            
-            // 更新导航链接状态
-            document.querySelectorAll('.nav-link').forEach(link => {
-                if (link.getAttribute('data-page') === pageId) {
-                    link.classList.add('active');
-                } else {
-                    link.classList.remove('active');
-                }
-            });
-            
-            // 关闭移动端菜单
-            document.getElementById('mobile-menu').classList.remove('active');
-        }
-        
-        // 初始化移动端菜单
-        function initMobileMenu() {
-            const menuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            
-            menuButton.addEventListener('click', function() {
-                mobileMenu.classList.toggle('active');
-            });
-        }
-        
-        // 初始化游戏详情模态框
-        function initGameDetailModal() {
-            const modal = document.getElementById('game-detail-modal');
-            const closeModal = document.getElementById('close-modal');
-            const modalTitle = document.getElementById('modal-title');
-            const modalContent = document.getElementById('modal-content');
-            
-            // 游戏详情按钮点击事件
-            document.querySelectorAll('.game-detail-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const gameCard = this.closest('.game-card');
-                    const gameId = parseInt(gameCard.getAttribute('data-game-id'));
-                    const game = gamesData.find(g => g.id === gameId);
                     
-                    if (game) {
-                        // 设置模态框标题
-                        modalTitle.textContent = game.title;
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        // 计算目标位置，考虑固定导航栏的高度
+                        const offsetTop = targetElement.offsetTop - 80;
                         
-                        // 设置模态框内容
-                        modalContent.innerHTML = `
-                            <div class="mb-8">
-                                <img src="${game.screenshots[0]}" alt="${game.title}" class="w-full aspect-[4/5] object-cover rounded-lg">
-                            </div>
-                            
-                            <div class="mb-8">
-                                <h3 class="text-xl font-light mb-4">游戏描述</h3>
-                                <p class="text-gray-300">${game.description}</p>
-                            </div>
-                            
-                            <div class="mb-8">
-                                <h3 class="text-xl font-light mb-4">游戏特色</h3>
-                                <ul class="list-disc list-inside text-gray-300 space-y-1">
-                                    ${game.features.map(feature => `<li>${feature}</li>`).join('')}
-                                </ul>
-                            </div>
-                            
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                <div>
-                                    <h3 class="text-xl font-light mb-4">游戏信息</h3>
-                                    <p class="text-gray-300 mb-2"><span class="text-white">发布日期:</span> ${game.releaseDate}</p>
-                                    <p class="text-gray-300 mb-2"><span class="text-white">平台:</span> ${game.platform}</p>
-                                    <p class="text-gray-300 mb-2"><span class="text-white">类型:</span> ${game.genre}</p>
-                                    <p class="text-gray-300"><span class="text-white">游戏引擎:</span> ${game.engine}</p>
-                                </div>
-                                
-                                <div class="flex items-center justify-center">
-                                    <button class="btn-hover border border-white px-8 py-3 text-sm uppercase tracking-wider">
-                                        下载游戏
-                                    </button>
-                                </div>
-                            </div>
-                        `;
+                        window.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
                         
-                        // 显示模态框
-                        modal.classList.remove('hidden');
+                        // 关闭移动菜单（如果打开）
+                        if (window.innerWidth <= 768) {
+                            navLinks.classList.remove('active');
+                        }
                     }
                 });
             });
             
-            // 关闭模态框按钮点击事件
-            closeModal.addEventListener('click', function() {
-                modal.classList.add('hidden');
-            });
+            // 联系表单处理
+            const contactForm = document.getElementById('contactForm');
             
-            // 点击模态框外部关闭模态框
-            modal.addEventListener('click', function(e) {
-                if (e.target === modal) {
-                    modal.classList.add('hidden');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // 获取表单数据
+                    const formData = {
+                        name: document.getElementById('name').value,
+                        email: document.getElementById('email').value,
+                        subject: document.getElementById('subject').value,
+                        message: document.getElementById('message').value
+                    };
+                    
+                    // 在实际应用中，这里应该发送数据到服务器
+                    // 这里仅做演示，显示成功消息
+                    alert(currentLang === 'en' ? 'Thank you for your message! We will get back to you soon.' : '感谢您的留言！我们会尽快回复您。');
+                    
+                    // 重置表单
+                    contactForm.reset();
+                });
+            }
+            
+            // 导航栏滚动效果
+            window.addEventListener('scroll', function() {
+                const header = document.querySelector('header');
+                const scrollY = window.scrollY;
+                
+                if (scrollY > 100) {
+                    header.style.backgroundColor = 'rgba(44, 62, 80, 0.95)';
+                    header.style.backdropFilter = 'blur(10px)';
+                } else {
+                    header.style.backgroundColor = 'var(--primary)';
+                    header.style.backdropFilter = 'none';
                 }
             });
-        }
-        
-        // 初始化联系表单
-        function initContactForm() {
-            const contactForm = document.getElementById('contact-form');
             
-            contactForm.addEventListener('submit', function(e) {
-                e.preventDefault();
+            // 游戏卡片动画效果
+            const gameCards = document.querySelectorAll('.game-card');
+            
+            // 创建IntersectionObserver来检测元素是否进入视口
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            // 为游戏卡片添加初始样式和观察
+            gameCards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(card);
+            });
+            
+            // 关于我们区域动画效果
+            const aboutContent = document.querySelector('.about-content');
+            
+            if (aboutContent) {
+                aboutContent.style.opacity = '0';
+                aboutContent.style.transform = 'translateX(20px)';
+                aboutContent.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
                 
-                // 获取表单数据
-                const name = document.getElementById('name').value;
-                const email = document.getElementById('email').value;
-                const subject = document.getElementById('subject').value;
-                const message = document.getElementById('message').value;
+                const aboutObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateX(0)';
+                        }
+                    });
+                }, {
+                    threshold: 0.2
+                });
                 
-                // 简单验证
-                if (!name || !email || !subject || !message) {
-                    alert('请填写所有字段。');
-                    return;
+                aboutObserver.observe(aboutContent);
+            }
+            
+            // 隐私政策区域动画效果
+            const policySections = document.querySelectorAll('.policy-section');
+            
+            policySections.forEach((section, index) => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(20px)';
+                section.style.transition = `opacity 0.5s ease ${index * 0.1}s, transform 0.5s ease ${index * 0.1}s`;
+                observer.observe(section);
+            });
+            
+            // 添加滚动到顶部按钮
+            const scrollToTopBtn = document.createElement('button');
+            scrollToTopBtn.innerHTML = '<i class="fas fa-chevron-up"></i>';
+            scrollToTopBtn.classList.add('scroll-to-top');
+            document.body.appendChild(scrollToTopBtn);
+            
+            // 滚动到顶部按钮样式
+            const style = document.createElement('style');
+            style.textContent = `
+                .scroll-to-top {
+                    position: fixed;
+                    bottom: 30px;
+                    right: 30px;
+                    width: 50px;
+                    height: 50px;
+                    background-color: var(--secondary);
+                    color: white;
+                    border: none;
+                    border-radius: 50%;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 1.2rem;
+                    opacity: 0;
+                    visibility: hidden;
+                    transition: var(--transition);
+                    z-index: 99;
+                    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
                 }
                 
-                // 模拟表单提交
-                alert('消息发送成功！');
+                .scroll-to-top.visible {
+                    opacity: 1;
+                    visibility: visible;
+                }
                 
-                // 重置表单
-                contactForm.reset();
+                .scroll-to-top:hover {
+                    background-color: var(--primary);
+                    transform: translateY(-3px);
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // 显示/隐藏滚动到顶部按钮
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 500) {
+                    scrollToTopBtn.classList.add('visible');
+                } else {
+                    scrollToTopBtn.classList.remove('visible');
+                }
             });
-        }
-        
+            
+            // 滚动到顶部功能
+            scrollToTopBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // 添加页面加载动画
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease';
+            
+            window.addEventListener('load', function() {
+                document.body.style.opacity = '1';
+            });
+        });
 
+        // 初始化语言设置
+        function initLanguage() {
+            // 检查本地存储中的语言设置
+            const savedLang = localStorage.getItem('lihuigames-lang');
+            
+            if (savedLang) {
+                currentLang = savedLang;
+            } else {
+                // 检测浏览器语言
+                const browserLang = navigator.language || navigator.userLanguage;
+                if (browserLang.startsWith('zh')) {
+                    currentLang = 'zh';
+                } else {
+                    currentLang = 'en';
+                }
+            }
+            
+            // 更新页面语言
+            updatePageLanguage();
+        }
+
+        // 切换语言
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'zh' : 'en';
+            localStorage.setItem('lihuigames-lang', currentLang);
+            updatePageLanguage();
+        }
+
+        // 更新页面语言
+        function updatePageLanguage() {
+            // 更新语言切换按钮文本
+            const langText = document.querySelector('.lang-text');
+            const langFlag = document.querySelector('.lang-flag');
+            
+            if (currentLang === 'en') {
+                langText.textContent = 'EN';
+                langFlag.textContent = '🌐';
+            } else {
+                langText.textContent = '中文';
+                langFlag.textContent = '🌐';
+            }
+            
+            // 更新页面内容
+            const elements = document.querySelectorAll('[data-lang]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-lang');
+                if (languagePack[currentLang] && languagePack[currentLang][key]) {
+                    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                        element.setAttribute('placeholder', languagePack[currentLang][key]);
+                    } else {
+                        element.textContent = languagePack[currentLang][key];
+                    }
+                }
+            });
+            
+            // 更新HTML lang属性
+            document.documentElement.setAttribute('lang', currentLang);
+            
+            // 更新页面标题
+            const titleElement = document.querySelector('title');
+            if (titleElement) {
+                titleElement.textContent = currentLang === 'en' 
+                    ? 'LIHUIGAMES - Innovative Game Development Studio' 
+                    : 'LIHUIGAMES - 创新游戏开发工作室';
+            }
+        }
     </script>
 </body>
 </html>
